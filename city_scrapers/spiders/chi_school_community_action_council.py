@@ -27,7 +27,7 @@ class ChiSchoolCommunityActionCouncilSpider(CityScrapersSpider):
         # Iterates through every month in the year after the current month
         for item in response.css(".smaller-headings .block"):
             source = item.css("a").css("a::attr(href)").extract_first()
-            if source and "humboldparkportal.org" in source:
+            if source and "humboldtparkportal.org" in source:
                 continue
             if not source:
                 source = response.url
