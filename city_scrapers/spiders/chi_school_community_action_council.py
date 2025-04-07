@@ -4,7 +4,7 @@ from datetime import datetime
 from city_scrapers_core.constants import COMMITTEE
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-
+from urllib.parse import urlparse
 
 class ChiSchoolCommunityActionCouncilSpider(CityScrapersSpider):
     name = "chi_school_community_action_council"
@@ -27,8 +27,10 @@ class ChiSchoolCommunityActionCouncilSpider(CityScrapersSpider):
         # Iterates through every month in the year after the current month
         for item in response.css(".smaller-headings .block"):
             source = item.css("a").css("a::attr(href)").extract_first()
-            if source and "humboldtparkportal.org" in source:
-                continue
+            if source:
+                parsed_url = urlparse(source)
+                if parsed_url.hostname == "humboldtparkportal.org":
+                    continue
             if not source:
                 source = response.url
             for month_counter in range(month, 13):
